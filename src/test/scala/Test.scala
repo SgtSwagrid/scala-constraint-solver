@@ -1,19 +1,12 @@
-import solver.Solver.*
-import solver.SudokuSolver
-import solver.SudokuSolver.*
+import scala.io.Source
+import sudoku.{Sudoku, SudokuSolver}
 
 object Test extends App:
-
-  val s = Sudoku (
-    4, 0, 7, 0, 0, 0, 1, 6, 2,
-    0, 8, 0, 0, 0, 2, 4, 7, 0,
-    9, 1, 2, 7, 6, 0, 0, 3, 8,
-    0, 4, 0, 9, 0, 5, 6, 0, 0,
-    0, 0, 5, 0, 2, 0, 9, 1, 0,
-    7, 9, 0, 0, 0, 0, 2, 0, 4,
-    6, 0, 0, 0, 0, 1, 3, 4, 0,
-    0, 0, 8, 0, 4, 0, 0, 0, 6,
-    0, 0, 0, 2, 5, 6, 0, 0, 0
-  )
   
-  println(SudokuSolver.solve(s).head)
+  val input = Source.fromFile("sudoku.txt").getLines.mkString.map(_.asDigit)
+  val sudoku = Sudoku(input*)
+  val t0 = System.currentTimeMillis()
+  for (i <- 1 to 100)
+    println(SudokuSolver.solve(sudoku).head)
+  val t1 = System.currentTimeMillis()
+  println(s"Average solution time: ${(t1-t0)/100}ms.")
